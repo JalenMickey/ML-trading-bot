@@ -1,9 +1,17 @@
-
 from flask import Flask, jsonify
-import gdown
+import subprocess
+
 app = Flask(__name__)
 
 @app.route('/run-colab')
 def run_colab():
-    gdown.download('https://colab.research.google.com/drive/1HV8yRqwMLXIaBsUYzYBSle6zlHyU9Khi?usp=sharing', 'tradingBot.ipynb', quiet=False)
-    return jsonify(message='colab notebook ran successfully')
+    # Convert notebook to Python script
+    subprocess.run(['jupyter', 'nbconvert', '--to', 'script', 'tradingBot.ipynb'])
+    
+    # Execute the converted Python script
+    subprocess.run(['python', 'tradingBot.py'])
+    
+    return jsonify(message='Colab notebook executed successfully')
+
+if __name__ == '__main__':
+    app.run(debug=True)
