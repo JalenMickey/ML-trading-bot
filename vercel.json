@@ -1,4 +1,10 @@
 {
+    "crons": [
+    {
+      "path": "/api/every-hour",
+      "schedule": "* * * * *"
+    },
+      
   "rewrites": [
     { "source": "/(.*)", "destination": "/api/index" }
   ]
